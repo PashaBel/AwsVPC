@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    shared_credentials_file = ["$HOME/.aws/credentials"]
+    shared_credentials_file = "$HOME/.aws/credentials"
     profile                 = "dev"
     region                  = "eu-central-1"
 
