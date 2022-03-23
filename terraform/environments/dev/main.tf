@@ -10,4 +10,5 @@ module "init" {
   environment     = var.environment
   aws_region_main = var.aws_region_main
   tags            = var.tags
+  vpc_cidr        = var.vpc_cidr
 }
