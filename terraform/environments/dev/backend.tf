@@ -1,7 +1,5 @@
 terraform {
   backend "s3" {
-    shared_credentials_file = "$HOME/.aws/credentials"
-    profile                 = "dev"
     region                  = "eu-central-1"
 
     bucket = "dev-private-global-transit-network-terraform-states"
