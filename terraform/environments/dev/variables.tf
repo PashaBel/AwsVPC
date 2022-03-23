@@ -5,6 +5,6 @@ variable "tags" {
 }
 variable "vpc_cidr" {}
 variable "allowed_ports" {
-  type = list(string)
+  type    = list(string)
   default = ["80", "443", "8080", "8443"]
 }
