@@ -1,6 +1,4 @@
 provider "aws" {
-  access_key = "AKIA6PGSMRXNEXH47GHN"
-  secret_key = "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"
   region     = "eu-central-1"
 }
 
@@ -11,4 +9,5 @@ module "init" {
   aws_region_main = var.aws_region_main
   tags            = var.tags
   vpc_cidr        = var.vpc_cidr
+  allowed_ports   = var.allowed_ports
 }

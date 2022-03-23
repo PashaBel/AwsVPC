@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    region                  = "eu-central-1"
+    region = "eu-central-1"
 
     bucket = "dev-private-global-transit-network-terraform-states"
     key    = "global/s3/terraform.tfstate"
