@@ -53,3 +53,14 @@ resource "aws_security_group_rule" "egress" {
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
 }
+
+# Create subnets for VPC
+resource "aws_subnet" "this" {
+  count             = length(var.vpc_cidr_subnet)
+  cidr_block        = element(var.vpc_cidr_subnet, count.index)
+  vpc_id            = aws_vpc.this.id
+  availability_zone = element(var.vpc_availability_zone, count.index)
+  tags = {
+    Name = "private_subnet_${element(var.vpc_availability_zone, count.index)}"
+  }
+}
