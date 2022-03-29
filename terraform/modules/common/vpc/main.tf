@@ -54,13 +54,48 @@ resource "aws_security_group_rule" "egress" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
-# Create subnets for VPC
-resource "aws_subnet" "this" {
-  count             = length(var.vpc_cidr_subnet)
-  cidr_block        = element(var.vpc_cidr_subnet, count.index)
+# Create private subnets for VPC
+resource "aws_subnet" "private" {
+  count             = length(var.vpc_cidr_private_subnet)
+  cidr_block        = element(var.vpc_cidr_private_subnet, count.index)
   vpc_id            = aws_vpc.this.id
   availability_zone = element(var.vpc_availability_zone, count.index)
   tags = {
     Name = "private_subnet_${element(var.vpc_availability_zone, count.index)}"
   }
+}
+
+# Create public subnets for VPC
+resource "aws_subnet" "public" {
+  count             = length(var.vpc_cidr_public_subnet)
+  cidr_block        = element(var.vpc_cidr_public_subnet, count.index)
+  vpc_id            = aws_vpc.this.id
+  availability_zone = element(var.vpc_availability_zone,l count.index)
+  tags = {
+    Name = "private_subnet_${element(var.vpc_availability_zone, count.index)}"
+  }
+}
+
+# Create Internet Gateway
+resource "aws_internet_gateway" "this" {
+  vpc_id = aws_vpc.this.id
+  tags = {
+    Name = "internet_gateway"
+  }
+}
+
+# Create Route Table
+resource "aws_route_table" "route_table" {
+  vpc_id            = aws_vpc.this.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = "${aws_internet_gateway.this.id}"
+  }
+  tags = {
+    Name = "internet_gateway_default"
+  }
+}
+resource "aws_route_table_association" "aws_route_table_association" {
+  route_table_id = "${aws_route_table.route_table.id}"
+  subnet_id = "${aws_subnet.private.id}"
 }
