@@ -65,17 +65,6 @@ resource "aws_subnet" "private" {
   }
 }
 
-# Create public subnets for VPC
-resource "aws_subnet" "public" {
-  count             = length(var.vpc_cidr_subnet)
-  cidr_block        = element(var.vpc_cidr_subnet, count.index)
-  vpc_id            = aws_vpc.this.id
-  availability_zone = var.vpc_availability_zone
-  tags = {
-    Name = "public_subnet_${var.vpc_availability_zone}"
-  }
-}
-
 # Create Internet Gateway
 resource "aws_internet_gateway" "this" {
   vpc_id = aws_vpc.this.id
