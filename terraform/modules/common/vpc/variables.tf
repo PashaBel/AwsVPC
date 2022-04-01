@@ -1,3 +1,4 @@
+variable "aws_region_main" {}
 variable "vpc_cidr" {
   type = map(any)
 }
